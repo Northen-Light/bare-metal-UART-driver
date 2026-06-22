@@ -5,7 +5,7 @@
 
 typedef enum {
   USART1_READ_OK = 0,
-  USART1_READ_FAILED
+  USART1_READ_EMPTY
 } usart1_read_char_t;
 
 void usart1_init(void);

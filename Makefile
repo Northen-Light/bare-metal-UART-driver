@@ -20,7 +20,7 @@ all: main.bin
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-main.elf: $(OBJS) main.ld
+main.elf: $(OBJS)
 	$(LD) $(LDFLAGS) $^ -o $@
 
 main.bin: main.elf

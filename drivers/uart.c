@@ -44,6 +44,6 @@ void USART1_IRQHandler(void) {
 
 usart1_read_char_t usart1_read_char(char *ch) {
   ringbuffer_status_t status = ringbuffer_get(ch);
-  if (status == RINGBUFFER_EMPTY) return USART1_READ_FAILED;
+  if (status == RINGBUFFER_EMPTY) return USART1_READ_EMPTY;
   return USART1_READ_OK;
 }
