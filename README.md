@@ -1,13 +1,13 @@
 # STM32 UART Communication Stack
 
-A bare-metal UART communication stack for STM32F103 featuring interrupt-driven reception, ring-buffered data handling, and a modular driver architecture.
+A bare-metal UART communication stack for STM32F103 featuring interrupt-driven reception, ring-buffered data handling, and a modular architecture.
 
 ## Features
 
 * USART1 initialization
 * Interrupt-driven UART RX
 * Ring buffer for asynchronous reception
-* Modular driver architecture
+* Modular architecture
 * GNU Make build system
 * Tested on STM32F103C8T6 (Blue Pill) using a CP2102 USB-UART adapter
 
@@ -21,9 +21,6 @@ USART1_IRQHandler()
     |
     v
 ringbuffer_put()
-    |
-    v
-Ring Buffer
     |
     v
 Return from ISR
@@ -61,7 +58,9 @@ drivers/
 utils/
 ├── ringbuffer.c
 ├── string.c
-└── io.c
+
+libs/
+├── io.c
 
 main.c
 startup.c
