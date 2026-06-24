@@ -1,7 +1,7 @@
   #define RCC_AHBENR            *((volatile unsigned int *) 0x40021014)
   #define RCC_APB2ENR           *((volatile unsigned int *) 0x40021018)
 
-  #define NVIC_ISER0            *((volatile unsigned int *) 0xE000E100)
+  #define NVIC_ISER1            *((volatile unsigned int *) 0xE000E104)
 
   #define GPIOA_CRH             *((volatile unsigned int *) 0x40010804)
   #define GPIOA_ODR             *((volatile unsigned int *) 0x4001080C)

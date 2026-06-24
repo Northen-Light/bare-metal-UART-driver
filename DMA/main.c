@@ -5,7 +5,7 @@ void app(const char *s);
 
 int main(void) {
   usart1_init();
-  set_dma_cc_callback(app);
+  set_usart1_idle_callback(app);
   while(1);
 }
 

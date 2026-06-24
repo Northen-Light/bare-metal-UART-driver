@@ -1,7 +1,8 @@
 #include "uart.h"
+#include "stdint.h"
 #include "mmap-regs.h"
 
-dma_cc_callback_t dma_cc_callback;
+usart1_idle_callback_t usart1_idle_callback;
 
 static char dma_buffer[17];
 
@@ -22,10 +23,9 @@ void usart1_init(void) {
   DMA1_CPAR5 = (volatile unsigned int)&USART1_DR;
   DMA1_CMAR5 = (volatile unsigned int)&dma_buffer[0];
   DMA1_CCR5 &= ~(1 << 4);
-  DMA1_CCR5 &= ~(1 << 5);
+  DMA1_CCR5 |= (1 << 5);
   DMA1_CCR5 &= ~(1 << 6);
   DMA1_CCR5 |= (1 << 7);
-  DMA1_CCR5 |= (1 << 1);
   DMA1_CCR5 |= (1 << 0);
 
   USART1_CR1 = 0;
@@ -35,8 +35,9 @@ void usart1_init(void) {
   USART1_BRR = (4 << 4) | 5;
   USART1_CR1 |= (1 << 2);
   USART1_CR1 |= (1 << 3);
+  USART1_CR1 |= (1 << 4);
   USART1_CR3 |= (1 << 6);
-  NVIC_ISER0 |= (1 << 15);
+  NVIC_ISER1 |= (1 << 5);
   USART1_CR1 |= (1 << 13);
 }
 
@@ -45,14 +46,16 @@ void usart1_write_char(char c) {
   USART1_DR = c;
 }
 
-void set_dma_cc_callback(dma_cc_callback_t cb) {
-  dma_cc_callback = cb;
+void set_usart1_idle_callback(usart1_idle_callback_t cb) {
+  usart1_idle_callback = cb;
 }
 
-void DMA1_Channel5_IRQHandler() {
-  DMA1_IFCR |= (1 << 16);
-  if (dma_cc_callback) {
-    dma_buffer[16] = '\0';
-    dma_cc_callback(dma_buffer);
+void USART1_IRQHandler(void) {
+  if (USART1_CR1 && (1 << 4)) {
+    volatile uint32_t usart1_dr = USART1_DR;
+    if (usart1_idle_callback) {
+      dma_buffer[16] = '\0';
+      usart1_idle_callback(dma_buffer);
+    }
   }
 }
