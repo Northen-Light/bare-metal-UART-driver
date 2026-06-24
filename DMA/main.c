@@ -1,6 +1,4 @@
 #include "uart.h"
-#include "stdint.h"
-#include "string.h"
 #include "io.h"
 
 int main(void) {

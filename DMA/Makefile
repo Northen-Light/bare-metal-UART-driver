@@ -10,7 +10,6 @@ SRCS					= \
 								main.c \
 								drivers/uart.c \
 								utils/string.c \
-								utils/ringbuffer.c \
 								libs/io.c
 
 OBJS					= $(SRCS:.c=.o)

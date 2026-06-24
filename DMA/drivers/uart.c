@@ -37,8 +37,6 @@ void usart1_init(void) {
   USART1_CR3 |= (1 << 6);
   NVIC_ISER0 |= (1 << 15);
   USART1_CR1 |= (1 << 13);
-
-  ringbuffer_init();
 }
 
 void usart1_write_char(char c) {
