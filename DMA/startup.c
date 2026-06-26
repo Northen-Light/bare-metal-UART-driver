@@ -66,7 +66,7 @@ char *vector_table[] = {
   0,
   0,
   0,
-  (char *) USART1_IRQHandler,
+  0,
 };
 
 void Reset_Handler(void) {

@@ -2,9 +2,10 @@
 #include "stdint.h"
 #include "mmap-regs.h"
 
-usart1_idle_callback_t usart1_idle_callback;
+#define DMA_BUFFER_SIZE 0x10
 
-static char dma_buffer[17];
+static volatile char dma_buffer[DMA_BUFFER_SIZE];
+static uint8_t read_pos = 0;
 
 void usart1_init(void) {
   RCC_APB2ENR |= (1 << 2);
@@ -19,7 +20,7 @@ void usart1_init(void) {
   GPIOA_ODR |= (1 << 10);
 
   DMA1_CCR5 = 0;
-  DMA1_CNDTR5 = 0x10;
+  DMA1_CNDTR5 = DMA_BUFFER_SIZE;
   DMA1_CPAR5 = (volatile unsigned int)&USART1_DR;
   DMA1_CMAR5 = (volatile unsigned int)&dma_buffer[0];
   DMA1_CCR5 &= ~(1 << 4);
@@ -35,9 +36,7 @@ void usart1_init(void) {
   USART1_BRR = (4 << 4) | 5;
   USART1_CR1 |= (1 << 2);
   USART1_CR1 |= (1 << 3);
-  USART1_CR1 |= (1 << 4);
   USART1_CR3 |= (1 << 6);
-  NVIC_ISER1 |= (1 << 5);
   USART1_CR1 |= (1 << 13);
 }
 
@@ -46,16 +45,13 @@ void usart1_write_char(char c) {
   USART1_DR = c;
 }
 
-void set_usart1_idle_callback(usart1_idle_callback_t cb) {
-  usart1_idle_callback = cb;
-}
+read_char_type_t usart1_read_char(char *ch) {
+  uint32_t dma_write_pos = DMA_BUFFER_SIZE - DMA1_CNDTR5;
 
-void USART1_IRQHandler(void) {
-  if (USART1_CR1 && (1 << 4)) {
-    volatile uint32_t usart1_dr = USART1_DR;
-    if (usart1_idle_callback) {
-      dma_buffer[16] = '\0';
-      usart1_idle_callback(dma_buffer);
-    }
-  }
+  if (dma_write_pos == read_pos) return READ_CHAR_EMPTY;
+
+  *ch = dma_buffer[read_pos];
+  read_pos = (read_pos + 1) & (DMA_BUFFER_SIZE - 1);
+
+  return READ_CHAR_OK;
 }
