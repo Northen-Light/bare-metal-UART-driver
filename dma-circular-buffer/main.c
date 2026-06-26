@@ -62,13 +62,13 @@ int main(void) {
 
 /*  
 * Note on execution speeds
-* CPU clocked 8MHz, time taken for an operation = 0.125 us
+* CPU clocked 8MHz, time taken for an operation = 0.125μs
 *
 * Based on baud rate of 115200 with 8N1 frame, each character
 * takes 10bits, so effectively 11520 bytes/sec.
 *
-* For DMA to wrap around the buffer it will take 16 / 11520 = 1388us
-* For average time between 2 consecutive writes is 1388 us / 16 = 87us
+* For DMA to wrap around the buffer it will take 16 / 11520 = 1388μs
+* For average time between 2 consecutive writes is 1388μs / 16 = 87μs
 *
-* DMA copy speed (less than 1us) is neglible compared to 87 us
+* DMA copy speed (less than 1μs) is neglible compared to 87μs
 */
