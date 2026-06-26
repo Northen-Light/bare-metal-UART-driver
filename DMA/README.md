@@ -1,6 +1,6 @@
 # STM32 UART Communication Stack (DMA + Circular Buffer)
 
-A bare-metal UART communication stack for STM32F103 featuring DMA-based reception using a circular buffer and a modular driver architecture.
+A bare-metal UART communication stack for STM32F103 featuring DMA-based reception using a circular buffer and a modular firmware architecture.
 
 ## Features
 
@@ -8,8 +8,7 @@ A bare-metal UART communication stack for STM32F103 featuring DMA-based receptio
 - DMA-based UART RX
 - Circular DMA buffer
 - Continuous reception without per-byte interrupts
-- Zero-copy receive path
-- Modular driver architecture
+- Modular firmware architecture
 - GNU Make build system
 - Tested on STM32F103C8T6 (Blue Pill) using a CP2102 USB-UART adapter
 
